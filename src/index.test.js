@@ -21,6 +21,24 @@ describe('babel-plugin-knifecycle', () => {
     });
   });
 
+  describe('autoName', () => {
+    it('should work with es6 modules imports', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoName } from 'knifecycle';
+
+        export default autoName(getUser);
+
+        async function getUser({ mysql: db, log = noop }, { userId }) {
+          return {};
+        }
+        `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+  });
+
   describe('autoHandler', () => {
     it('should work with es6 modules imports', () => {
       var example = `

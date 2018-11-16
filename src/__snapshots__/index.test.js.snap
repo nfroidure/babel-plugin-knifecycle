@@ -42,3 +42,18 @@ async function getUser({
   return {};
 }"
 `;
+
+exports[`babel-plugin-knifecycle autoName should work with es6 modules imports 1`] = `
+"import noop from 'noop';
+import { name as _name } from 'knifecycle';
+export default _name(getUser, \\"getUser\\");
+
+async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+}"
+`;

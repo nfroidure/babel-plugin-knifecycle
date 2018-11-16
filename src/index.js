@@ -40,6 +40,18 @@ export default function knifecyclePlugin(babel) {
               });
             }
 
+            if ('autoName' === importedNode.node.name) {
+              _renameAutoFunction(path, importedNode, localNode, 'name');
+              _forEachCallExpression(path, localNode, path => {
+                const functionDefinitionPath = _findFunctionDefinitionPath(
+                  path,
+                );
+
+                const name = _pickupHandlerName(functionDefinitionPath);
+                path.node.arguments.push(babel.types.stringLiteral(name));
+              });
+            }
+
             if ('autoHandler' === importedNode.node.name) {
               _renameAutoFunction(path, importedNode, localNode, 'handler');
               _forEachCallExpression(path, localNode, path => {
