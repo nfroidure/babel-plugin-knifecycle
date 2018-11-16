@@ -1,3 +1,40 @@
+const AUTO_FUNCTIONS_TRANFORMS = {
+  autoInject: {
+    target: 'inject',
+    transform: (babel, autoFunctionPath, functionDefinitionPath) => {
+      const injections = _pickupInitializerDependencies(functionDefinitionPath);
+
+      autoFunctionPath.node.arguments.push(
+        babel.types.arrayExpression(
+          injections.map(i => babel.types.stringLiteral(i)),
+        ),
+      );
+    },
+  },
+  autoName: {
+    target: 'name',
+    transform: (babel, autoFunctionPath, functionDefinitionPath) => {
+      const name = _pickupHandlerName(functionDefinitionPath);
+      autoFunctionPath.node.arguments.push(babel.types.stringLiteral(name));
+    },
+  },
+  autoHandler: {
+    target: 'handler',
+    transform: (babel, autoFunctionPath, functionDefinitionPath) => {
+      AUTO_FUNCTIONS_TRANFORMS.autoName.transform(
+        babel,
+        autoFunctionPath,
+        functionDefinitionPath,
+      );
+      AUTO_FUNCTIONS_TRANFORMS.autoInject.transform(
+        babel,
+        autoFunctionPath,
+        functionDefinitionPath,
+      );
+    },
+  },
+};
+
 export default function knifecyclePlugin(babel) {
   return {
     visitor: {
@@ -21,53 +58,24 @@ export default function knifecyclePlugin(babel) {
               return;
             }
 
-            if ('autoInject' === importedNode.node.name) {
-              _renameAutoFunction(path, importedNode, localNode, 'inject');
+            const autoFunctionName = importedNode.node.name;
+
+            if (AUTO_FUNCTIONS_TRANFORMS[autoFunctionName]) {
+              _renameAutoFunction(
+                path,
+                importedNode,
+                localNode,
+                AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].target,
+              );
               _forEachCallExpression(path, localNode, path => {
                 const functionDefinitionPath = _findFunctionDefinitionPath(
                   path,
                 );
 
-                const injections = _pickupInitializerDependencies(
+                AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].transform(
+                  babel,
+                  path,
                   functionDefinitionPath,
-                );
-
-                path.node.arguments.push(
-                  babel.types.arrayExpression(
-                    injections.map(i => babel.types.stringLiteral(i)),
-                  ),
-                );
-              });
-            }
-
-            if ('autoName' === importedNode.node.name) {
-              _renameAutoFunction(path, importedNode, localNode, 'name');
-              _forEachCallExpression(path, localNode, path => {
-                const functionDefinitionPath = _findFunctionDefinitionPath(
-                  path,
-                );
-
-                const name = _pickupHandlerName(functionDefinitionPath);
-                path.node.arguments.push(babel.types.stringLiteral(name));
-              });
-            }
-
-            if ('autoHandler' === importedNode.node.name) {
-              _renameAutoFunction(path, importedNode, localNode, 'handler');
-              _forEachCallExpression(path, localNode, path => {
-                const functionDefinitionPath = _findFunctionDefinitionPath(
-                  path,
-                );
-
-                const name = _pickupHandlerName(functionDefinitionPath);
-                const injections = _pickupInitializerDependencies(
-                  functionDefinitionPath,
-                );
-                path.node.arguments.push(babel.types.stringLiteral(name));
-                path.node.arguments.push(
-                  babel.types.arrayExpression(
-                    injections.map(i => babel.types.stringLiteral(i)),
-                  ),
                 );
               });
             }
