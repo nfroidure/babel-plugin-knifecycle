@@ -3,18 +3,36 @@ import { transform } from '@babel/core';
 import plugin from '.';
 
 describe('babel-plugin-knifecycle', () => {
-  describe('autoHandler', () => {
+  describe('autoInject', () => {
     it('should work with es6 modules imports', () => {
       var example = `
         import noop from 'noop';
-        import { autoHandler } from 'knifecycle';
+        import { autoInject } from 'knifecycle';
 
-        export default autoHandler(getUser);
+        export default autoInject(getUser);
 
         async function getUser({ mysql: db, log = noop }, { userId }) {
           return {};
         }
         `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+  });
+
+  describe('autoHandler', () => {
+    it('should work with es6 modules imports', () => {
+      var example = `
+          import noop from 'noop';
+          import { autoHandler } from 'knifecycle';
+
+          export default autoHandler(getUser);
+
+          async function getUser({ mysql: db, log = noop }, { userId }) {
+            return {};
+          }
+          `;
 
       const { code } = transform(example, { plugins: [plugin] });
       expect(code).toMatchSnapshot();

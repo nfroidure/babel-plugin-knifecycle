@@ -27,3 +27,18 @@ export default _handler(async function getUser({
   return {};
 }, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
 `;
+
+exports[`babel-plugin-knifecycle autoInject should work with es6 modules imports 1`] = `
+"import noop from 'noop';
+import { inject as _inject } from 'knifecycle';
+export default _inject(getUser, [\\"mysql\\", \\"?log\\"]);
+
+async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+}"
+`;
