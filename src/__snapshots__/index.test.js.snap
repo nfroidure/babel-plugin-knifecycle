@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`babel-plugin-knifecycle autoHandler should work with es6 modules imports 1`] = `
+"import noop from 'noop';
+import { handler as _handler } from 'knifecycle';
+export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
+
+async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+}"
+`;
+
+exports[`babel-plugin-knifecycle autoHandler should work with inline function expressions 1`] = `
+"import noop from 'noop';
+import { handler as _handler } from 'knifecycle';
+export default _handler(async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+}, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+`;

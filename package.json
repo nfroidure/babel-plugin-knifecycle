@@ -1,0 +1,157 @@
+{
+  "name": "babel-plugin-knifecycle",
+  "version": "0.0.0",
+  "description": "A Babel plugin to transform Knifecycle auto* functions to their raw equivalent.",
+  "keywords": [
+    "knifecycle",
+    "injestion",
+    "dependencies",
+    "babel-plugin"
+  ],
+  "main": "dist/index.js",
+  "metapak": {
+    "configs": [
+      "main",
+      "readme",
+      "jest",
+      "eslint",
+      "babel"
+    ],
+    "data": {
+      "files": "src/*.js",
+      "testFiles": "tests/*.test.js",
+      "bundleFiles": [
+        "dist/**/*.js"
+      ]
+    }
+  },
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "cli": "env NODE_ENV=${NODE_ENV:-cli}",
+    "compile": "babel src --out-dir=dist",
+    "cover": "npm run jest -- --coverage",
+    "coveralls": "npm run cover && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "cz": "env NODE_ENV=${NODE_ENV:-cli} git cz",
+    "jest": "NODE_ENV=test jest",
+    "lint": "eslint src/*.js",
+    "metapak": "metapak",
+    "precz": "npm t && npm run lint && npm run metapak -- -s",
+    "prettier": "prettier --write src/*.js",
+    "preversion": "npm t && npm run lint && npm run metapak -- -s && npm run compile",
+    "test": "npm run jest",
+    "version": "npm run changelog && git add CHANGELOG.md"
+  },
+  "author": {
+    "name": "Nicolas Froidure",
+    "email": "nicolas.froidure@insertafter.com",
+    "url": "http://insertafter.com/en/index.html"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-0",
+    "babel-eslint": "^10.0.1",
+    "commitizen": "^3.0.4",
+    "conventional-changelog-cli": "^2.0.11",
+    "coveralls": "^3.0.2",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^5.9.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "jest": "^23.6.0",
+    "metapak": "^2.0.0",
+    "metapak-nfroidure": "^9.0.3",
+    "prettier": "^1.14.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nfroidure/babel-plugin-knifecycle.git"
+  },
+  "contributors": [],
+  "engines": {
+    "node": ">=8.12.0"
+  },
+  "files": [
+    "dist/**/*.js",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "greenkeeper": {
+    "ignore": [
+      "commitizen",
+      "cz-conventional-changelog",
+      "conventional-changelog-cli",
+      "jest",
+      "coveralls",
+      "eslint",
+      "eslint-config-prettier",
+      "prettier"
+    ]
+  },
+  "jest": {
+    "coverageReporters": [
+      "lcov"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "modules": true
+    },
+    "env": {
+      "es6": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "printWidth": 80,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "proseWrap": "always"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/env",
+        {
+          "targets": {
+            "node": "8.12.0"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-object-rest-spread"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/nfroidure/babel-plugin-knifecycle/issues"
+  },
+  "homepage": "https://github.com/nfroidure/babel-plugin-knifecycle#readme"
+}
