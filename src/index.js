@@ -4,7 +4,7 @@ const AUTO_FUNCTIONS_TRANFORMS = {
     transform: (babel, autoFunctionPath, functionDefinitionPath) => {
       const injections = _pickupInitializerDependencies(functionDefinitionPath);
 
-      autoFunctionPath.node.arguments.push(
+      autoFunctionPath.node.arguments.unshift(
         babel.types.arrayExpression(
           injections.map(i => babel.types.stringLiteral(i)),
         ),
@@ -15,21 +15,20 @@ const AUTO_FUNCTIONS_TRANFORMS = {
     target: 'name',
     transform: (babel, autoFunctionPath, functionDefinitionPath) => {
       const name = _pickupHandlerName(functionDefinitionPath);
-      autoFunctionPath.node.arguments.push(babel.types.stringLiteral(name));
+      autoFunctionPath.node.arguments.unshift(babel.types.stringLiteral(name));
     },
   },
   autoHandler: {
     target: 'handler',
     transform: (babel, autoFunctionPath, functionDefinitionPath) => {
-      AUTO_FUNCTIONS_TRANFORMS.autoName.transform(
-        babel,
-        autoFunctionPath,
-        functionDefinitionPath,
-      );
-      AUTO_FUNCTIONS_TRANFORMS.autoInject.transform(
-        babel,
-        autoFunctionPath,
-        functionDefinitionPath,
+      const name = _pickupHandlerName(functionDefinitionPath);
+      const injections = _pickupInitializerDependencies(functionDefinitionPath);
+
+      autoFunctionPath.node.arguments.push(babel.types.stringLiteral(name));
+      autoFunctionPath.node.arguments.push(
+        babel.types.arrayExpression(
+          injections.map(i => babel.types.stringLiteral(i)),
+        ),
       );
     },
   },
@@ -123,6 +122,11 @@ function _findFunctionDefinitionPath(path) {
     functionDefinitionPath = binding.path;
   } else if (autoHandlerArgumentPath.isFunctionExpression()) {
     functionDefinitionPath = autoHandlerArgumentPath;
+  } else if (
+    autoHandlerArgumentPath.isCallExpression() &&
+    AUTO_FUNCTIONS_TRANFORMS[autoHandlerArgumentPath.get('callee').node.name]
+  ) {
+    return _findFunctionDefinitionPath(autoHandlerArgumentPath);
   } else {
     throw autoHandlerArgumentPath.buildCodeFrameError(
       'Expect autoHandler to take an async function in argument.',

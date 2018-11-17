@@ -19,6 +19,22 @@ describe('babel-plugin-knifecycle', () => {
       const { code } = transform(example, { plugins: [plugin] });
       expect(code).toMatchSnapshot();
     });
+
+    it('should work with several auto functions', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoInject, autoName } from 'knifecycle';
+
+        export default autoInject(autoName(getUser));
+
+        async function getUser({ mysql: db, log = noop }, { userId }) {
+          return {};
+        }
+        `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
   });
 
   describe('autoName', () => {
