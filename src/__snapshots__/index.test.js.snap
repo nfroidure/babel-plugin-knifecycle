@@ -72,3 +72,56 @@ async function getUser({
   return {};
 }"
 `;
+
+exports[`babel-plugin-knifecycle autoProvider should work with es6 modules imports 1`] = `
+"import noop from 'noop';
+import { provider as _provider } from 'knifecycle';
+export default _provider(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
+
+async function getUser({
+  mysql: db,
+  log = noop
+}) {
+  return async ({
+    userId
+  }) => {
+    return {};
+  };
+}"
+`;
+
+exports[`babel-plugin-knifecycle autoProvider should work with options 1`] = `
+"import noop from 'noop';
+import { provider as _provider } from 'knifecycle';
+export default _provider(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"], {
+  singleton: true
+});
+
+async function getUser({
+  mysql: db,
+  log = noop
+}) {
+  return async ({
+    userId
+  }) => {
+    return {};
+  };
+}"
+`;
+
+exports[`babel-plugin-knifecycle autoService should work with es6 modules imports 1`] = `
+"import noop from 'noop';
+import { service as _service } from 'knifecycle';
+export default _service(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
+
+async function getUser({
+  mysql: db,
+  log = noop
+}) {
+  return async ({
+    userId
+  }) => {
+    return {};
+  };
+}"
+`;

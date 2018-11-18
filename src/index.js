@@ -18,20 +18,32 @@ const AUTO_FUNCTIONS_TRANFORMS = {
       autoFunctionPath.node.arguments.unshift(babel.types.stringLiteral(name));
     },
   },
-  autoHandler: {
-    target: 'handler',
+  autoService: {
+    target: 'service',
     transform: (babel, autoFunctionPath, functionDefinitionPath) => {
       const name = _pickupHandlerName(functionDefinitionPath);
       const injections = _pickupInitializerDependencies(functionDefinitionPath);
 
-      autoFunctionPath.node.arguments.push(babel.types.stringLiteral(name));
-      autoFunctionPath.node.arguments.push(
+      autoFunctionPath.node.arguments = [
+        autoFunctionPath.node.arguments[0],
+        babel.types.stringLiteral(name),
         babel.types.arrayExpression(
           injections.map(i => babel.types.stringLiteral(i)),
         ),
-      );
+        ...autoFunctionPath.node.arguments.slice(1),
+      ];
     },
   },
+};
+
+AUTO_FUNCTIONS_TRANFORMS.autoHandler = {
+  target: 'handler',
+  transform: AUTO_FUNCTIONS_TRANFORMS.autoService.transform,
+};
+
+AUTO_FUNCTIONS_TRANFORMS.autoProvider = {
+  target: 'provider',
+  transform: AUTO_FUNCTIONS_TRANFORMS.autoService.transform,
 };
 
 export default function knifecyclePlugin(babel) {
@@ -122,10 +134,14 @@ function _findFunctionDefinitionPath(path) {
     functionDefinitionPath = binding.path;
   } else if (autoHandlerArgumentPath.isFunctionExpression()) {
     functionDefinitionPath = autoHandlerArgumentPath;
-  } else if (
-    autoHandlerArgumentPath.isCallExpression() &&
-    AUTO_FUNCTIONS_TRANFORMS[autoHandlerArgumentPath.get('callee').node.name]
-  ) {
+  } else if (autoHandlerArgumentPath.isCallExpression()) {
+    const calleeName = autoHandlerArgumentPath.get('callee').node.name;
+
+    if (!AUTO_FUNCTIONS_TRANFORMS[calleeName]) {
+      throw autoHandlerArgumentPath.buildCodeFrameError(
+        'Expect autoHandler to take an auto function call in argument, try to import the auto function in the same order they were used.',
+      );
+    }
     return _findFunctionDefinitionPath(autoHandlerArgumentPath);
   } else {
     throw autoHandlerArgumentPath.buildCodeFrameError(

@@ -55,6 +55,64 @@ describe('babel-plugin-knifecycle', () => {
     });
   });
 
+  describe('autoService', () => {
+    it('should work with es6 modules imports', () => {
+      var example = `
+          import noop from 'noop';
+          import { autoService } from 'knifecycle';
+
+          export default autoService(getUser);
+
+          async function getUser({ mysql: db, log = noop }) {
+            return async ({ userId }) => {
+              return {};
+            }
+          }
+          `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+  });
+
+  describe('autoProvider', () => {
+    it('should work with es6 modules imports', () => {
+      var example = `
+          import noop from 'noop';
+          import { autoProvider } from 'knifecycle';
+
+          export default autoProvider(getUser);
+
+          async function getUser({ mysql: db, log = noop }) {
+            return async ({ userId }) => {
+              return {};
+            }
+          }
+          `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+
+    it('should work with options', () => {
+      var example = `
+          import noop from 'noop';
+          import { autoProvider } from 'knifecycle';
+
+          export default autoProvider(getUser, { singleton: true });
+
+          async function getUser({ mysql: db, log = noop }) {
+            return async ({ userId }) => {
+              return {};
+            }
+          }
+          `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+  });
+
   describe('autoHandler', () => {
     it('should work with es6 modules imports', () => {
       var example = `
