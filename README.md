@@ -7,6 +7,7 @@
 # babel-plugin-knifecycle
 > A Babel plugin to transform Knifecycle auto* functions to their raw equivalent.
 
+[![Build status](https://secure.travis-ci.org/nfroidure/babel-plugin-knifecycle.svg)](https://travis-ci.org/nfroidure/babel-plugin-knifecycle)
 [![Coverage Status](https://coveralls.io/repos/nfroidure/babel-plugin-knifecycle/badge.svg?branch=master)](https://coveralls.io/r/nfroidure/babel-plugin-knifecycle?branch=master)
 [![NPM version](https://badge.fury.io/js/babel-plugin-knifecycle.svg)](https://npmjs.org/package/babel-plugin-knifecycle)
 [![Dependency Status](https://david-dm.org/nfroidure/babel-plugin-knifecycle.svg)](https://david-dm.org/nfroidure/babel-plugin-knifecycle)

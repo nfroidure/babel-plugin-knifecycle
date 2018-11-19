@@ -4,7 +4,7 @@
   "description": "A Babel plugin to transform Knifecycle auto* functions to their raw equivalent.",
   "keywords": [
     "knifecycle",
-    "injestion",
+    "injection",
     "dependencies",
     "babel-plugin"
   ],
@@ -15,14 +15,16 @@
       "readme",
       "jest",
       "eslint",
-      "babel"
+      "babel",
+      "travis"
     ],
     "data": {
       "files": "src/*.js",
       "testFiles": "tests/*.test.js",
       "bundleFiles": [
         "dist/**/*.js"
-      ]
+      ],
+      "ignore": ["dist"]
     }
   },
   "scripts": {
