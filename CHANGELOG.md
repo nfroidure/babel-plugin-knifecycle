@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.0.0...v1.0.1) (2019-01-12)
+
+
+### Bug Fixes
+
+* **autoService:** Ensure the service initializer prefix are stripped ([780161b](https://github.com/nfroidure/babel-plugin-knifecycle/commit/780161b)), closes [#1](https://github.com/nfroidure/babel-plugin-knifecycle/issues/1)
+
+
+
 # 1.0.0 (2018-11-18)
 
 
