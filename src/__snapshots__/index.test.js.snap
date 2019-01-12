@@ -73,6 +73,21 @@ async function getUser({
 }"
 `;
 
+exports[`babel-plugin-knifecycle autoName should work with init prefix 1`] = `
+"import noop from 'noop';
+import { name as _name } from 'knifecycle';
+export default _name(\\"getUser\\", initGetUser);
+
+async function initGetUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+}"
+`;
+
 exports[`babel-plugin-knifecycle autoProvider should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { provider as _provider } from 'knifecycle';

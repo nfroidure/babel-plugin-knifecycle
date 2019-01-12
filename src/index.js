@@ -1,3 +1,5 @@
+import { parseName } from 'knifecycle/dist/util';
+
 const AUTO_FUNCTIONS_TRANFORMS = {
   autoInject: {
     target: 'inject',
@@ -15,7 +17,9 @@ const AUTO_FUNCTIONS_TRANFORMS = {
     target: 'name',
     transform: (babel, autoFunctionPath, functionDefinitionPath) => {
       const name = _pickupHandlerName(functionDefinitionPath);
-      autoFunctionPath.node.arguments.unshift(babel.types.stringLiteral(name));
+      autoFunctionPath.node.arguments.unshift(
+        babel.types.stringLiteral(parseName(name)),
+      );
     },
   },
   autoService: {
@@ -26,7 +30,7 @@ const AUTO_FUNCTIONS_TRANFORMS = {
 
       autoFunctionPath.node.arguments = [
         autoFunctionPath.node.arguments[0],
-        babel.types.stringLiteral(name),
+        babel.types.stringLiteral(parseName(name)),
         babel.types.arrayExpression(
           injections.map(i => babel.types.stringLiteral(i)),
         ),
