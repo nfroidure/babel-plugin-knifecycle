@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "cli": "env NODE_ENV=${NODE_ENV:-cli}",
     "compile": "babel src --out-dir=dist",
     "cover": "npm run jest -- --coverage",
@@ -43,7 +43,7 @@
     "prettier": "prettier --write src/*.js",
     "preversion": "npm t && npm run lint && npm run metapak -- -s && npm run compile",
     "test": "npm run jest",
-    "version": "npm run changelog && git add CHANGELOG.md"
+    "version": "npm run changelog"
   },
   "author": {
     "name": "Nicolas Froidure",
@@ -67,7 +67,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "jest": "^23.6.0",
     "metapak": "^2.0.0",
-    "metapak-nfroidure": "9.0.4",
+    "metapak-nfroidure": "9.2.0",
     "prettier": "^1.15.3"
   },
   "repository": {
@@ -159,6 +159,6 @@
   },
   "homepage": "https://github.com/nfroidure/babel-plugin-knifecycle#readme",
   "dependencies": {
-    "knifecycle": "^5.0.4"
+    "knifecycle": "^5.1.1"
   }
 }
