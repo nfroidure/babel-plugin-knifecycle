@@ -43,6 +43,16 @@ async function getUser({
 }"
 `;
 
+exports[`babel-plugin-knifecycle autoInject should work with no injection 1`] = `
+"import noop from 'noop';
+import { inject as _inject } from 'knifecycle';
+export default _inject([], getUser);
+
+async function getUser() {
+  return {};
+}"
+`;
+
 exports[`babel-plugin-knifecycle autoInject should work with several auto functions 1`] = `
 "import noop from 'noop';
 import { inject as _inject, name as _name } from 'knifecycle';
@@ -133,6 +143,20 @@ async function getUser({
   mysql: db,
   log = noop
 }) {
+  return async ({
+    userId
+  }) => {
+    return {};
+  };
+}"
+`;
+
+exports[`babel-plugin-knifecycle autoService should work with no dependencies 1`] = `
+"import noop from 'noop';
+import { service as _service } from 'knifecycle';
+export default _service(getUser, \\"getUser\\", []);
+
+async function getUser() {
   return async ({
     userId
   }) => {

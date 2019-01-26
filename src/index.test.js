@@ -20,6 +20,22 @@ describe('babel-plugin-knifecycle', () => {
       expect(code).toMatchSnapshot();
     });
 
+    it('should work with no injection', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoInject } from 'knifecycle';
+
+        export default autoInject(getUser);
+
+        async function getUser() {
+          return {};
+        }
+        `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+
     it('should work with several auto functions', () => {
       var example = `
         import noop from 'noop';
@@ -80,6 +96,24 @@ describe('babel-plugin-knifecycle', () => {
           export default autoService(getUser);
 
           async function getUser({ mysql: db, log = noop }) {
+            return async ({ userId }) => {
+              return {};
+            }
+          }
+          `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+
+    it('should work with no dependencies', () => {
+      var example = `
+          import noop from 'noop';
+          import { autoService } from 'knifecycle';
+
+          export default autoService(getUser);
+
+          async function getUser() {
             return async ({ userId }) => {
               return {};
             }

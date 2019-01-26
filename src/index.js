@@ -164,6 +164,9 @@ function _pickupInitializerDependencies(path) {
   const injections = [];
   const handlerArgumentPath = path.get('params.0');
 
+  if (!handlerArgumentPath) {
+    return injections;
+  }
   if (!handlerArgumentPath.isObjectPattern()) {
     throw handlerArgumentPath.buildCodeFrameError(
       'Expect the dependencies to be defined through an object pattern.',
