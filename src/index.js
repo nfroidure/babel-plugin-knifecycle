@@ -53,47 +53,53 @@ AUTO_FUNCTIONS_TRANFORMS.autoProvider = {
 export default function knifecyclePlugin(babel) {
   return {
     visitor: {
-      ImportDeclaration(path) {
-        const sourceNode = path.get('source');
+      Program(programPath) {
+        programPath.traverse({
+          ImportDeclaration(path) {
+            const sourceNode = path.get('source');
 
-        if (!sourceNode.isStringLiteral()) {
-          return;
-        }
-
-        if (!sourceNode.node.value === 'knifecycle') {
-          return;
-        }
-
-        path.traverse({
-          ImportSpecifier(path) {
-            const localNode = path.get('local');
-            const importedNode = path.get('imported');
-
-            if (!(localNode.isIdentifier() && importedNode.isIdentifier())) {
+            if (!sourceNode.isStringLiteral()) {
               return;
             }
 
-            const autoFunctionName = importedNode.node.name;
-
-            if (AUTO_FUNCTIONS_TRANFORMS[autoFunctionName]) {
-              _renameAutoFunction(
-                path,
-                importedNode,
-                localNode,
-                AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].target,
-              );
-              _forEachCallExpression(path, localNode, path => {
-                const functionDefinitionPath = _findFunctionDefinitionPath(
-                  path,
-                );
-
-                AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].transform(
-                  babel,
-                  path,
-                  functionDefinitionPath,
-                );
-              });
+            if (!sourceNode.node.value === 'knifecycle') {
+              return;
             }
+
+            path.traverse({
+              ImportSpecifier(path) {
+                const localNode = path.get('local');
+                const importedNode = path.get('imported');
+
+                if (
+                  !(localNode.isIdentifier() && importedNode.isIdentifier())
+                ) {
+                  return;
+                }
+
+                const autoFunctionName = importedNode.node.name;
+
+                if (AUTO_FUNCTIONS_TRANFORMS[autoFunctionName]) {
+                  _renameAutoFunction(
+                    path,
+                    importedNode,
+                    localNode,
+                    AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].target,
+                  );
+                  _forEachCallExpression(path, localNode, path => {
+                    const functionDefinitionPath = _findFunctionDefinitionPath(
+                      path,
+                    );
+
+                    AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].transform(
+                      babel,
+                      path,
+                      functionDefinitionPath,
+                    );
+                  });
+                }
+              },
+            });
           },
         });
       },
