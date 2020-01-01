@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`babel-plugin-knifecycle autoHandler should work with a function inside a var 1`] = `
+"import noop from 'noop';
+import { handler as _handler } from 'knifecycle';
+
+const getUser = async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+};
+
+export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+`;
+
+exports[`babel-plugin-knifecycle autoHandler should work with an anonymous function inside a var 1`] = `
+"import noop from 'noop';
+import { handler as _handler } from 'knifecycle';
+
+const getUser = async function getUser({
+  mysql: db,
+  log = noop
+}, {
+  userId
+}) {
+  return {};
+};
+
+export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+`;
+
 exports[`babel-plugin-knifecycle autoHandler should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { handler as _handler } from 'knifecycle';

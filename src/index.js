@@ -135,13 +135,35 @@ function _findFunctionDefinitionPath(path) {
       autoHandlerArgumentPath.node.name,
     );
 
-    if (!(binding && binding.path.isFunctionDeclaration())) {
+    if (
+      !(
+        binding &&
+        (binding.path.isFunctionDeclaration() ||
+          binding.path.isVariableDeclarator())
+      )
+    ) {
       throw autoHandlerArgumentPath.buildCodeFrameError(
         'Expect the function passed in autoHandler to be defined in the local file.',
       );
     }
 
-    functionDefinitionPath = binding.path;
+    if (binding.path.isFunctionDeclaration()) {
+      functionDefinitionPath = binding.path;
+    } else {
+      functionDefinitionPath = binding.path.get('init');
+      if (!functionDefinitionPath.isFunctionExpression()) {
+        throw autoHandlerArgumentPath.buildCodeFrameError(
+          'Expect the function passed in autoHandler to be defined in the local file.',
+        );
+      }
+
+      if (!functionDefinitionPath.get('id').node) {
+        functionDefinitionPath.get('id').replaceWith({
+          type: 'Identifier',
+          name: 'getUser',
+        });
+      }
+    }
   } else if (autoHandlerArgumentPath.isFunctionExpression()) {
     functionDefinitionPath = autoHandlerArgumentPath;
   } else if (autoHandlerArgumentPath.isCallExpression()) {

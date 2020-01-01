@@ -194,6 +194,46 @@ describe('babel-plugin-knifecycle', () => {
       expect(code).toMatchSnapshot();
     });
 
+    it('should work with a function inside a var', () => {
+      var example = `
+      import noop from 'noop';
+      import { autoHandler } from 'knifecycle';
+      
+      const getUser = async function getUser(
+        { mysql: db, log = noop },
+        { userId },
+      ) {
+        return {};
+      };
+
+      export default autoHandler(getUser);
+      `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+
+      expect(code).toMatchSnapshot();
+    });
+
+    it('should work with an anonymous function inside a var', () => {
+      var example = `
+      import noop from 'noop';
+      import { autoHandler } from 'knifecycle';
+      
+      const getUser = async function(
+        { mysql: db, log = noop },
+        { userId },
+      ) {
+        return {};
+      };
+
+      export default autoHandler(getUser);
+      `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+
+      expect(code).toMatchSnapshot();
+    });
+
     it('should fail with anonymous function expressions', () => {
       var example = `
       import noop from 'noop';
