@@ -160,7 +160,7 @@ function _findFunctionDefinitionPath(path) {
       if (!functionDefinitionPath.get('id').node) {
         functionDefinitionPath.get('id').replaceWith({
           type: 'Identifier',
-          name: 'getUser',
+          name: binding.path.get('id').node.name,
         });
       }
     }
