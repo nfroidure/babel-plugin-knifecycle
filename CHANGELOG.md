@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.1.0...v1.1.1) (2020-01-01)
+
+
+### Bug Fixes
+
+* **core:** fix identifier name detection ([8a46937](https://github.com/nfroidure/babel-plugin-knifecycle/commit/8a4693739a0f68eca380757243e3c8b581341177))
+
+
+
 # [1.1.0](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.0.3...v1.1.0) (2020-01-01)
 
 
