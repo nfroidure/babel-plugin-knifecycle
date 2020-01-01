@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.0.3...v1.1.0) (2020-01-01)
+
+
+### Features
+
+* **core:** add support for variable declaration usage ([c88a48b](https://github.com/nfroidure/babel-plugin-knifecycle/commit/c88a48b4bebcd606b51aa6e59e1584eb40d7367d))
+
+
+
 ## [1.0.3](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.0.2...v1.0.3) (2019-02-02)
 
 
