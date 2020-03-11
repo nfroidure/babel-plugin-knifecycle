@@ -196,6 +196,9 @@ function _pickupInitializerDependencies(path) {
     return injections;
   }
   if (!handlerArgumentPath.isObjectPattern()) {
+    if (handlerArgumentPath.node.name === '_') {
+      return injections;
+    }
     throw handlerArgumentPath.buildCodeFrameError(
       'Expect the dependencies to be defined through an object pattern.',
     );

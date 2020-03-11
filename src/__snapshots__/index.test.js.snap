@@ -85,6 +85,18 @@ async function getUser() {
 }"
 `;
 
+exports[`babel-plugin-knifecycle autoInject should work with non-destructured "_" named args 1`] = `
+"import noop from 'noop';
+import { inject as _inject, name as _name } from 'knifecycle';
+export default _inject([], _name(\\"getUser\\", getUser));
+
+async function getUser(_, {
+  userId
+}) {
+  return {};
+}"
+`;
+
 exports[`babel-plugin-knifecycle autoInject should work with several auto functions 1`] = `
 "import noop from 'noop';
 import { inject as _inject, name as _name } from 'knifecycle';

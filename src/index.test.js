@@ -51,6 +51,41 @@ describe('babel-plugin-knifecycle', () => {
       const { code } = transform(example, { plugins: [plugin] });
       expect(code).toMatchSnapshot();
     });
+
+    it('should work with non-destructured "_" named args', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoInject, autoName } from 'knifecycle';
+
+        export default autoInject(autoName(getUser));
+
+        async function getUser(_, { userId }) {
+          return {};
+        }
+        `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchSnapshot();
+    });
+
+    it('should fail with non-destructured arg', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoInject, autoName } from 'knifecycle';
+
+        export default autoInject(autoName(getUser));
+
+        async function getUser(services, { userId }) {
+          return {};
+        }
+        `;
+
+      expect(() => {
+        transform(example, { plugins: [plugin] });
+      }).toThrow(
+        'Expect the dependencies to be defined through an object pattern.',
+      );
+    });
   });
 
   describe('autoName', () => {
