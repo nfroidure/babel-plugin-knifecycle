@@ -8,7 +8,7 @@ const AUTO_FUNCTIONS_TRANFORMS = {
 
       autoFunctionPath.node.arguments.unshift(
         babel.types.arrayExpression(
-          injections.map(i => babel.types.stringLiteral(i)),
+          injections.map((i) => babel.types.stringLiteral(i)),
         ),
       );
     },
@@ -32,7 +32,7 @@ const AUTO_FUNCTIONS_TRANFORMS = {
         autoFunctionPath.node.arguments[0],
         babel.types.stringLiteral(parseName(name)),
         babel.types.arrayExpression(
-          injections.map(i => babel.types.stringLiteral(i)),
+          injections.map((i) => babel.types.stringLiteral(i)),
         ),
         ...autoFunctionPath.node.arguments.slice(1),
       ];
@@ -86,7 +86,7 @@ export default function knifecyclePlugin(babel) {
                     localNode,
                     AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].target,
                   );
-                  _forEachCallExpression(path, localNode, path => {
+                  _forEachCallExpression(path, localNode, (path) => {
                     const functionDefinitionPath = _findFunctionDefinitionPath(
                       path,
                     );
@@ -118,7 +118,7 @@ function _renameAutoFunction(path, importedNode, localNode, name) {
 function _forEachCallExpression(path, localNode, fn) {
   const binding = path.scope.getBinding(localNode.node.name);
 
-  binding.referencePaths.forEach(path => {
+  binding.referencePaths.forEach((path) => {
     if (!path.parentPath.isCallExpression()) {
       return;
     }
