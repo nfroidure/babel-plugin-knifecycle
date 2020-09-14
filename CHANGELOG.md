@@ -1,3 +1,7 @@
+# [3.0.0](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v2.0.0...v3.0.0) (2020-09-14)
+
+
+
 # [2.0.0](https://github.com/nfroidure/babel-plugin-knifecycle/compare/v1.2.0...v2.0.0) (2020-05-17)
 
 
