@@ -20,6 +20,36 @@ describe('babel-plugin-knifecycle', () => {
       expect(code).toMatchSnapshot();
     });
 
+    it('should work with object rest spreads', () => {
+      var example = `
+        import noop from 'noop';
+        import { autoInject } from 'knifecycle';
+
+        export default autoInject(getUser);
+
+        async function getUser({ mysql: db, log = noop, ...services }, { userId }) {
+          return {};
+        }
+        `;
+
+      const { code } = transform(example, { plugins: [plugin] });
+      expect(code).toMatchInlineSnapshot(`
+        "import noop from 'noop';
+        import { inject as _inject } from 'knifecycle';
+        export default _inject([\\"mysql\\", \\"?log\\"], getUser);
+
+        async function getUser({
+          mysql: db,
+          log = noop,
+          ...services
+        }, {
+          userId
+        }) {
+          return {};
+        }"
+      `);
+    });
+
     it('should work with no injection', () => {
       var example = `
         import noop from 'noop';
