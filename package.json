@@ -55,7 +55,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "knifecycle": "^10.0.1"
+    "knifecycle": "^10.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
