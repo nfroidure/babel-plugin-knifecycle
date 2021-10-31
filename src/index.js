@@ -87,9 +87,8 @@ export default function knifecyclePlugin(babel) {
                     AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].target,
                   );
                   _forEachCallExpression(path, localNode, (path) => {
-                    const functionDefinitionPath = _findFunctionDefinitionPath(
-                      path,
-                    );
+                    const functionDefinitionPath =
+                      _findFunctionDefinitionPath(path);
 
                     AUTO_FUNCTIONS_TRANFORMS[autoFunctionName].transform(
                       babel,
