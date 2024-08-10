@@ -21,7 +21,7 @@
     }
   },
   "name": "babel-plugin-knifecycle",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "A Babel plugin to transform Knifecycle auto* functions to their raw equivalent.",
   "keywords": [
     "knifecycle",
