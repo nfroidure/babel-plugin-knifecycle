@@ -7,9 +7,7 @@
 # babel-plugin-knifecycle
 > A Babel plugin to transform Knifecycle auto* functions to their raw equivalent.
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/babel-plugin-knifecycle/blob/master/LICENSE)
-[![Build status](https://travis-ci.com/nfroidure/babel-plugin-knifecycle.svg?branch=master)](https://travis-ci.com/github/nfroidure/babel-plugin-knifecycle)
-[![Coverage Status](https://coveralls.io/repos/github/nfroidure/babel-plugin-knifecycle/badge.svg?branch=master)](https://coveralls.io/github/nfroidure/babel-plugin-knifecycle?branch=master)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/babel-plugin-knifecycle/blob/main/LICENSE)
 
 
 [//]: # (::contents:start)
@@ -23,4 +21,4 @@ To avoid this, just add this plugin to your Babel config.
 - [Nicolas Froidure](http://insertafter.com/en/index.html)
 
 # License
-[MIT](https://github.com/nfroidure/babel-plugin-knifecycle/blob/master/LICENSE)
+[MIT](https://github.com/nfroidure/babel-plugin-knifecycle/blob/main/LICENSE)

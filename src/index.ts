@@ -1,4 +1,18 @@
-import { parseName } from 'knifecycle/dist/util';
+import { parseName } from 'knifecycle';
+
+const commonTransform = (babel, autoFunctionPath, functionDefinitionPath) => {
+  const name = _pickupHandlerName(functionDefinitionPath);
+  const injections = _pickupInitializerDependencies(functionDefinitionPath);
+
+  autoFunctionPath.node.arguments = [
+    autoFunctionPath.node.arguments[0],
+    babel.types.stringLiteral(parseName(name)),
+    babel.types.arrayExpression(
+      injections.map((i) => babel.types.stringLiteral(i)),
+    ),
+    ...autoFunctionPath.node.arguments.slice(1),
+  ];
+};
 
 const AUTO_FUNCTIONS_TRANFORMS = {
   autoInject: {
@@ -24,19 +38,15 @@ const AUTO_FUNCTIONS_TRANFORMS = {
   },
   autoService: {
     target: 'service',
-    transform: (babel, autoFunctionPath, functionDefinitionPath) => {
-      const name = _pickupHandlerName(functionDefinitionPath);
-      const injections = _pickupInitializerDependencies(functionDefinitionPath);
-
-      autoFunctionPath.node.arguments = [
-        autoFunctionPath.node.arguments[0],
-        babel.types.stringLiteral(parseName(name)),
-        babel.types.arrayExpression(
-          injections.map((i) => babel.types.stringLiteral(i)),
-        ),
-        ...autoFunctionPath.node.arguments.slice(1),
-      ];
-    },
+    transform: commonTransform,
+  },
+  autoHandler: {
+    target: 'handler',
+    transform: commonTransform,
+  },
+  autoProvider: {
+    target: 'provider',
+    transform: commonTransform,
   },
 };
 
@@ -62,7 +72,7 @@ export default function knifecyclePlugin(babel) {
               return;
             }
 
-            if (!sourceNode.node.value === 'knifecycle') {
+            if (sourceNode.node.value !== 'knifecycle') {
               return;
             }
 
@@ -188,7 +198,7 @@ function _pickupHandlerName(path) {
 }
 
 function _pickupInitializerDependencies(path) {
-  const injections = [];
+  const injections: string[] = [];
   const handlerArgumentPath = path.get('params.0');
 
   if (!handlerArgumentPath) {

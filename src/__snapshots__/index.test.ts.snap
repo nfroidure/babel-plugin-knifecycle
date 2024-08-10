@@ -3,7 +3,6 @@
 exports[`babel-plugin-knifecycle autoHandler should work with a function inside a var 1`] = `
 "import noop from 'noop';
 import { handler as _handler } from 'knifecycle';
-
 const getUser = async function getUser({
   mysql: db,
   log = noop
@@ -12,14 +11,12 @@ const getUser = async function getUser({
 }) {
   return {};
 };
-
-export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+export default _handler(getUser, "getUser", ["mysql", "?log"]);"
 `;
 
 exports[`babel-plugin-knifecycle autoHandler should work with an anonymous function inside a var 1`] = `
 "import noop from 'noop';
 import { handler as _handler } from 'knifecycle';
-
 const getUser = async function getUser({
   mysql: db,
   log = noop
@@ -28,15 +25,13 @@ const getUser = async function getUser({
 }) {
   return {};
 };
-
-export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+export default _handler(getUser, "getUser", ["mysql", "?log"]);"
 `;
 
 exports[`babel-plugin-knifecycle autoHandler should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { handler as _handler } from 'knifecycle';
-export default _handler(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
-
+export default _handler(getUser, "getUser", ["mysql", "?log"]);
 async function getUser({
   mysql: db,
   log = noop
@@ -57,14 +52,13 @@ export default _handler(async function getUser({
   userId
 }) {
   return {};
-}, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);"
+}, "getUser", ["mysql", "?log"]);"
 `;
 
 exports[`babel-plugin-knifecycle autoInject should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { inject as _inject } from 'knifecycle';
-export default _inject([\\"mysql\\", \\"?log\\"], getUser);
-
+export default _inject(["mysql", "?log"], getUser);
 async function getUser({
   mysql: db,
   log = noop
@@ -79,7 +73,6 @@ exports[`babel-plugin-knifecycle autoInject should work with no injection 1`] = 
 "import noop from 'noop';
 import { inject as _inject } from 'knifecycle';
 export default _inject([], getUser);
-
 async function getUser() {
   return {};
 }"
@@ -88,8 +81,7 @@ async function getUser() {
 exports[`babel-plugin-knifecycle autoInject should work with non-destructured "_" named args 1`] = `
 "import noop from 'noop';
 import { inject as _inject, name as _name } from 'knifecycle';
-export default _inject([], _name(\\"getUser\\", getUser));
-
+export default _inject([], _name("getUser", getUser));
 async function getUser(_, {
   userId
 }) {
@@ -100,8 +92,7 @@ async function getUser(_, {
 exports[`babel-plugin-knifecycle autoInject should work with several auto functions 1`] = `
 "import noop from 'noop';
 import { inject as _inject, name as _name } from 'knifecycle';
-export default _inject([\\"mysql\\", \\"?log\\"], _name(\\"getUser\\", getUser));
-
+export default _inject(["mysql", "?log"], _name("getUser", getUser));
 async function getUser({
   mysql: db,
   log = noop
@@ -115,8 +106,7 @@ async function getUser({
 exports[`babel-plugin-knifecycle autoName should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { name as _name } from 'knifecycle';
-export default _name(\\"getUser\\", getUser);
-
+export default _name("getUser", getUser);
 async function getUser({
   mysql: db,
   log = noop
@@ -130,8 +120,7 @@ async function getUser({
 exports[`babel-plugin-knifecycle autoName should work with init prefix 1`] = `
 "import noop from 'noop';
 import { name as _name } from 'knifecycle';
-export default _name(\\"getUser\\", initGetUser);
-
+export default _name("getUser", initGetUser);
 async function initGetUser({
   mysql: db,
   log = noop
@@ -145,8 +134,7 @@ async function initGetUser({
 exports[`babel-plugin-knifecycle autoProvider should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { provider as _provider } from 'knifecycle';
-export default _provider(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
-
+export default _provider(getUser, "getUser", ["mysql", "?log"]);
 async function getUser({
   mysql: db,
   log = noop
@@ -162,10 +150,9 @@ async function getUser({
 exports[`babel-plugin-knifecycle autoProvider should work with options 1`] = `
 "import noop from 'noop';
 import { provider as _provider } from 'knifecycle';
-export default _provider(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"], {
+export default _provider(getUser, "getUser", ["mysql", "?log"], {
   singleton: true
 });
-
 async function getUser({
   mysql: db,
   log = noop
@@ -181,8 +168,7 @@ async function getUser({
 exports[`babel-plugin-knifecycle autoService should work with es6 modules imports 1`] = `
 "import noop from 'noop';
 import { service as _service } from 'knifecycle';
-export default _service(getUser, \\"getUser\\", [\\"mysql\\", \\"?log\\"]);
-
+export default _service(getUser, "getUser", ["mysql", "?log"]);
 async function getUser({
   mysql: db,
   log = noop
@@ -198,8 +184,7 @@ async function getUser({
 exports[`babel-plugin-knifecycle autoService should work with no dependencies 1`] = `
 "import noop from 'noop';
 import { service as _service } from 'knifecycle';
-export default _service(getUser, \\"getUser\\", []);
-
+export default _service(getUser, "getUser", []);
 async function getUser() {
   return async ({
     userId
